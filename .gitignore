@@ -3,7 +3,7 @@
 
 # Log file
 *.log
-*.db.properties
+db.properties
 
 # BlueJ files
 *.ctxt
