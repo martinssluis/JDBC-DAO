@@ -4,6 +4,7 @@ import db.DB;
 import db.DbException;
 import src.model.dao.DepartmentDao;
 import src.model.entites.Department;
+import src.model.entites.Seller;
 
 import java.sql.*;
 import java.util.List;
@@ -63,7 +64,37 @@ public class DepartmentDaoJDBC implements DepartmentDao {
 
     @Override
     public Department findById(Integer id) {
-        return null;
+
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try{
+            st = conn.prepareStatement(
+                    "SELECT department.* " +
+                            "FROM department " +
+                            "WHERE department.id = ?");
+            st.setInt(1, id);
+            rs = st.executeQuery();
+            if (rs.next()) {
+                Department dep = instantiateDepartment(rs);
+                return dep;
+            }
+            return null;
+        } catch (SQLException e){
+            throw new DbException(e.getMessage());
+        }
+        finally {
+            DB.closeStatement(st);
+            DB.closeResultSet(rs);
+
+        }
+    }
+
+    // Converte uma linha do banco de dados em Java
+    private Department instantiateDepartment(ResultSet rs) throws SQLException{
+        Department dep = new Department();
+        dep.setId(rs.getInt("Id"));
+        dep.setName(rs.getString("Name"));
+        return dep;
     }
 
     @Override
