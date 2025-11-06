@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 public class Program {
     public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
 
         DepartmentDao departmentDao = DaoFactory.createDepartmentDao();
 
@@ -33,6 +34,14 @@ public class Program {
         department.setName("D2");
         departmentDao.update(department);
         System.out.println("Update completed! Department:" + department);
+
+        System.out.println("\n=== TEST 5: department delete ===");
+        System.out.print("Enter id for delete test: ");
+        int id = sc.nextInt();
+        departmentDao.deleteById(id);
+        System.out.println("Delete completed");
+
+        sc.close();
 
     }
 }
