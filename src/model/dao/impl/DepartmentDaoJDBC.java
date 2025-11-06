@@ -7,7 +7,10 @@ import src.model.entites.Department;
 import src.model.entites.Seller;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DepartmentDaoJDBC implements DepartmentDao {
 
@@ -98,7 +101,31 @@ public class DepartmentDaoJDBC implements DepartmentDao {
     }
 
     @Override
-    public List<Department> FindAll() {
-        return List.of();
+    public List<Department> findAll() {
+
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try{
+            st = conn.prepareStatement(
+                    "SELECT * FROM department"
+            );
+
+            rs = st.executeQuery();
+
+            List<Department> list = new ArrayList<>();
+            while(rs.next()) {
+                Department dep = instantiateDepartment(rs);
+            list.add(dep);
+            }
+            return list;
+
+        } catch (SQLException e){
+            throw new DbException(e.getMessage());
+        }
+        finally {
+        DB.closeStatement(st);
+        DB.closeResultSet(rs);
+        }
+
     }
 }
