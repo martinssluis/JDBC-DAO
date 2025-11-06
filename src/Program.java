@@ -19,13 +19,20 @@ public class Program {
         //System.out.println("Inserted! New id = " + musicDepartment.getId());
 
         System.out.println("\n=== TEST 2: department findById ===");
-        Department departmentId = departmentDao.findById(7);
-        System.out.println(departmentId);
+        Department department = departmentDao.findById(6);
+        System.out.println(department);
 
         System.out.println("\n=== TEST 3: department findAll ===");
         List<Department> list = departmentDao.findAll();
         for(Department dep : list){
             System.out.println(dep);
         }
+
+        System.out.println("\n=== TEST 4: department update ===");
+        department = departmentDao.findById(7);
+        department.setName("D2");
+        departmentDao.update(department);
+        System.out.println("Update completed! Department:" + department);
+
     }
 }
